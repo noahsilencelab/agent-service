@@ -1,9 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const OpenAI = require("openai");
+const fetch = require("node-fetch"); // Uncomment if using Node.js
+
 const openai = new OpenAI({
   apiKey:
-    "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",
+    "",
 });
 
 const app = express();
@@ -147,7 +149,7 @@ This current dataprovider is a ${
   };
   const isConsentAprrove = await askForConsent();
   // If approve
-  let opcodeResp
+  let opcodeResp;
   const updateReq = loanRequests.find((req) => req.userId === userId);
   if (isConsentAprrove) {
     updateReq.status = "approved";
@@ -193,10 +195,35 @@ You can also compose the data from multiple functions in simple Python code if a
       const response = completion.choices[0].message.content
         .trim()
         .toLowerCase();
-      
-      return response
+
+      return response;
     };
     opcodeResp = await askForOpcode();
+    console.log(opcodeResp);
+
+    const parsedData = parseOpcodeResp(opcodeResp);
+    console.log("parsedData", parsedData)
+    const hostLocal = "http://127.0.0.1:4000"; // Replace with your actual host if different
+    const url = `${hostLocal}/api/v1/get-insights`;
+
+    let result;
+    
+    await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(parsedData),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Response:", data);
+        result = data;
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+
   } else {
     updateReq.status = "rejected";
   }
@@ -204,7 +231,7 @@ You can also compose the data from multiple functions in simple Python code if a
 
   res.json({
     status: updateReq.status,
-    message: opcodeResp,
+    result
   });
 });
 
@@ -212,3 +239,14 @@ You can also compose the data from multiple functions in simple Python code if a
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+function parseOpcodeResp(opcodeResp) {
+  // Extract the month value using regex
+  const monthMatch = opcodeResp.match(/month\s*=\s*(\d+)/);
+  const month = monthMatch ? parseInt(monthMatch[1], 10) : null;
+
+  return {
+    insight_type: "top_debit", // Since it's given
+    month: month || 6, // Default to 6 if month extraction fails
+  };
+}
