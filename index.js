@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const OpenAI = require("openai");
 const openai = new OpenAI({
   apiKey:
@@ -152,6 +153,8 @@ This current dataprovider is a ${
     updateReq.status = "rejected";
   }
   console.log(loanRequests);
+
+
 
   res.json({
     status: updateReq.status,
