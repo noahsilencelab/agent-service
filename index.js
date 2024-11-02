@@ -143,16 +143,16 @@ This current dataprovider is a ${
   };
   const isConsentAprrove = await askForConsent();
   // If approve
-  const req = loanRequests.find((req) => req.userId === userId);
+  const updateReq = loanRequests.find((req) => req.userId === userId);
   if (isConsentAprrove) {
-    req.status = "approved";
+    updateReq.status = "approved";
   } else {
-    req.status = "rejected";
+    updateReq.status = "rejected";
   }
   console.log(loanRequests);
 
   res.json({
-    status: req.status,
+    status: updateReq.status,
     message: "Data request created successfully.",
   });
 });
