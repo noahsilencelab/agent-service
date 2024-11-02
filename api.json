@@ -1,0 +1,83 @@
+{
+    "info": {
+      "name": "Loan Requests API",
+      "_postman_id": "b1b1e7ef-5c29-490c-975c-65d5f8a0b7c1",
+      "description": "API for managing loan requests and user consents.",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Get Loan Requests",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "{{baseUrl}}/api/loan_requests",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "loan_requests"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Get Statistics",
+        "request": {
+          "method": "GET",
+          "header": [],
+          "url": {
+            "raw": "{{baseUrl}}/api/statistic",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "statistic"]
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Create Consent",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "url": {
+            "raw": "{{baseUrl}}/api/consent",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "consent"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\"userId\": \"exampleUserId\", \"consentLevel\": \"level1\"}"
+          }
+        },
+        "response": []
+      },
+      {
+        "name": "Create Data Request",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json",
+              "type": "text"
+            }
+          ],
+          "url": {
+            "raw": "{{baseUrl}}/api/data-request",
+            "host": ["{{baseUrl}}"],
+            "path": ["api", "data-request"]
+          },
+          "body": {
+            "mode": "raw",
+            "raw": "{\"userId\": \"exampleUserId\", \"dataRequest\": \"exampleDataRequest\"}"
+          }
+        },
+        "response": []
+      }
+    ]
+  }
+  
